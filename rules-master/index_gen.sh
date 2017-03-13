@@ -1,8 +1,11 @@
 #!/bin/bash
 
+
+# To remove a folder chnage the 
+
 function get_folders {
     local INDECES=()
-    for folder in $(ls -d */ | grep -v utils); do
+    for folder in $(ls -d */ | grep -v -e "utils" -e "email" -e "Mobile*"); do
         INDECES+="$folder "
     done
     INDECES+=". "
@@ -18,7 +21,7 @@ function gen_index {
         echo -e "/*$4*/" > $IDX_NAME
     fi
     OS=$(uname)
-    AVOID="_?index.yara?|index_|utils"
+    AVOID="_?index.yara?|index_|utils|email"
     if [ x"$BASE" == x"." ]; then
         if [ $INC_MOBILE == false ]; then
             AVOID+="|Mobile"
@@ -46,7 +49,7 @@ echo "          Yara-Rules"
 echo "        Index generator"
 echo "   **************************"
 
-INC_MOBILE=true
+INC_MOBILE=False
 
 for folder in $(get_folders)
 do
